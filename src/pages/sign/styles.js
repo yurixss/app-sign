@@ -1,12 +1,16 @@
 import styled from 'styled-components/native';
 
 export const SignContainer = styled.View`
-  display: flex;
-  flex-direction: column;
+  flex: 1;
   align-items: center;
-  justify-content: center;
-  background: #fff;
-  height: 100vh;
+  padding: 12px;
+  margin-top: 100px;
+  gap: 20px;
+`;
+
+export const Title = styled.Text`
+  font-size: 18px;
+  font-weight: bold;
 `;
 
 export const SignImage = styled.Image`
