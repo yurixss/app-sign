@@ -30,6 +30,19 @@ export const ButtonText = styled.Text`
   font-weight: bold;
 `;
 
-export const UserSignContainer = styled.View`
-  width: '100%'
+export const UserSign = styled.View`
+  width: 100%;
+`;
+
+export const Line = styled.View`
+  width: 100%;
+  height: 10px;
+  background-color: green;
+  margin-top: 10px;
+`;
+
+export const SignText = styled.Text`
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 10px;
 `;

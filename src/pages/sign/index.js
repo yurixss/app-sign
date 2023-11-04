@@ -1,25 +1,30 @@
 import React, { useState, useEffect } from 'react';
+import {
+  SignContainer, Title, SignButton, ButtonText, SignImage, UserSign, Line, SignText
+} from './styles';
 import { Text } from 'react-native';
 import Toast from 'react-native-toast-message';
 import Constants from 'expo-constants';
 import * as Location from 'expo-location';
 import * as Network from 'expo-network';
-import {
-  SignContainer, Title, SignButton, ButtonText, SignImage,
-} from './styles';
+
+import * as Font from 'expo-font';
+
 
 export function Sign() {
+  const [location, setLocation] = useState(null);
+  const [signed, setSigned] = useState(false);
   const { deviceName } = Constants;
   const { deviceId } = Constants;
-  const [location, setLocation] = useState(null);
   const [ip, setIp] = useState(null);
 
-  const handleSign = () => {
+  const sign = () => {
     Toast.show({
       type: 'success',
       position: 'bottom',
       text1: 'Assinado com sucesso',
     });
+    setSigned(true);
   };
 
   useEffect(() => {
@@ -38,6 +43,10 @@ export function Sign() {
     const { latitude, longitude } = coords;
   }
 
+  let [fontsLoaded] = Font.useFonts({
+    'Allura-Regular': require('/Users/yurixss/app-sign/assets/fonts/Allura-Regular.ttf'),
+  });
+
   return (
     <SignContainer>
       <Title>
@@ -48,9 +57,16 @@ export function Sign() {
 
       <Text>Clique no botão para assinar</Text>
 
-      <UserSign/>
+      <UserSign>
+        {
+          signed && (
+            <SignText>Yuri Nunes</SignText>
+          )
+        }
+        <Line />
+      </UserSign>
 
-      <SignButton onPress={() => handleSign()}>
+      <SignButton onPress={() => sign()}>
         <ButtonText>Assinar</ButtonText>
       </SignButton>
 
