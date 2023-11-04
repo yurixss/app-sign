@@ -29,3 +29,7 @@ export const ButtonText = styled.Text`
   font-size: 16px;
   font-weight: bold;
 `;
+
+export const UserSignContainer = styled.View`
+  width: '100%'
+`;
