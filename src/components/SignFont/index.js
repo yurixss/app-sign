@@ -4,7 +4,7 @@ import * as Font from 'expo-font';
 
 const SignFont = (props) => {
   let [fontsLoaded] = Font.useFonts({
-    'Allura-Regular': require('/Users/yurixss/app-sign/assets/fonts/Allura-Regular.ttf'),
+    'DancingScript-Bold': require('/Users/yurixss/app-sign/assets/fonts/DancingScript-Bold.ttf'),
   });
 
   if (!fontsLoaded) {
@@ -16,7 +16,7 @@ const SignFont = (props) => {
 
 const styles = StyleSheet.create({
   text: {
-    fontFamily: 'Allura-Regular',
+    fontFamily: 'DancingScript-Bold',
     fontSize: 16,
     alignSelf: 'center',
     justifyContent: 'center',

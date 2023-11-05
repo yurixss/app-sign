@@ -20,7 +20,8 @@
       ]
     ],
     "assetBundlePatterns": [
-      "**/*"
+      "**/*",
+      "assets/fonts/"
     ],
     "ios": {
       "supportsTablet": true

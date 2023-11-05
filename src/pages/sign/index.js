@@ -6,22 +6,14 @@ import Toast from 'react-native-toast-message';
 import Constants from 'expo-constants';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import SignFont from '../../components/SignFont';
+import { api } from '../../services/api';
 
 export function Sign() {
   const [signed, setSigned] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [location, setLocation] = useState(null);
   const [ip, setIp] = useState(null);
-  const { deviceName } = Constants;
-  const { deviceId } = Constants;
-
-  const sign = () => {
-    Toast.show({
-      type: 'success',
-      position: 'bottom',
-      text1: 'Assinado com sucesso',
-    });
-    setSigned(true);
-  };
+  const { deviceName, deviceId } = Constants;
 
   useEffect(() => {
     (async () => {
@@ -34,18 +26,48 @@ export function Sign() {
     })();
   }, []);
 
-  if (location) {
+  const sign = () => {
+    setLoading(true);
+
     const { coords } = location;
     const { latitude, longitude } = coords;
-  }
+
+    const data = {
+      ip: ip,
+      device_model: deviceName,
+      device_id: deviceId,
+      location: latitude + ',' + longitude,
+    };
+
+    api.post('/sign/', {
+      data
+    })
+      .then(response => {
+        console.log(response);
+
+        Toast.show({
+          type: 'success',
+          position: 'bottom',
+          text1: 'Assinatura realizada com sucesso!',
+        });
+
+        setSigned(true);
+      })
+      .catch(error => {
+        console.log(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
 
   return (
     <Styled.Container>
-      <Styled.Title>
+      <SignFont>
         Leia e assine o documento abaixo:
-      </Styled.Title>
+      </SignFont>
 
-      <Styled.SignImage source={{ uri: '/Users/yurixss/app-sign/assets/sign.jpg' }} />
+      <Styled.SignImage source={{ uri: '/Users/yurixss/app-sign/assets/sign.jpg'}} />
 
       <Styled.Box>
         {signed && (
@@ -56,7 +78,9 @@ export function Sign() {
 
       {!signed ? (
         <Styled.SignButton onPress={() => sign()}>
-          <Styled.ButtonText>Assinar</Styled.ButtonText>
+          <Styled.ButtonText>
+            {loading ? 'Carregando...' : 'Assinar'}
+          </Styled.ButtonText>
         </Styled.SignButton>
       ): (
         <Styled.SignedButton disabled={true}>
