@@ -1,22 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import {
-  SignContainer, Title, SignButton, ButtonText, SignImage, UserSign, Line, SignText
-} from './styles';
-import { Text } from 'react-native';
-import Toast from 'react-native-toast-message';
-import Constants from 'expo-constants';
+import * as Styled from './styles';
 import * as Location from 'expo-location';
 import * as Network from 'expo-network';
-
-import * as Font from 'expo-font';
-
+import Toast from 'react-native-toast-message';
+import Constants from 'expo-constants';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import SignFont from '../../components/SignFont';
 
 export function Sign() {
-  const [location, setLocation] = useState(null);
   const [signed, setSigned] = useState(false);
+  const [location, setLocation] = useState(null);
+  const [ip, setIp] = useState(null);
   const { deviceName } = Constants;
   const { deviceId } = Constants;
-  const [ip, setIp] = useState(null);
 
   const sign = () => {
     Toast.show({
@@ -43,33 +39,32 @@ export function Sign() {
     const { latitude, longitude } = coords;
   }
 
-  let [fontsLoaded] = Font.useFonts({
-    'Allura-Regular': require('/Users/yurixss/app-sign/assets/fonts/Allura-Regular.ttf'),
-  });
-
   return (
-    <SignContainer>
-      <Title>
+    <Styled.Container>
+      <Styled.Title>
         Leia e assine o documento abaixo:
-      </Title>
+      </Styled.Title>
 
-      <SignImage source={{ uri: '/Users/yurixss/app-sign/assets/sign.jpg' }} />
+      <Styled.SignImage source={{ uri: '/Users/yurixss/app-sign/assets/sign.jpg' }} />
 
-      <Text>Clique no botão para assinar</Text>
-
-      <UserSign>
-        {
-          signed && (
-            <SignText>Yuri Nunes</SignText>
+      <Styled.Box>
+        {signed && (
+          <SignFont>Yuri Nunes</SignFont>
           )
         }
-        <Line />
-      </UserSign>
+      </Styled.Box>
 
-      <SignButton onPress={() => sign()}>
-        <ButtonText>Assinar</ButtonText>
-      </SignButton>
+      {!signed ? (
+        <Styled.SignButton onPress={() => sign()}>
+          <Styled.ButtonText>Assinar</Styled.ButtonText>
+        </Styled.SignButton>
+      ): (
+        <Styled.SignedButton disabled={true}>
+          <Ionicons name="md-checkmark-circle" size={24} color="white" />
+          <Styled.ButtonText>Assinado</Styled.ButtonText>
+        </Styled.SignedButton>
+      )}
 
-    </SignContainer>
+    </Styled.Container>
   );
 }
